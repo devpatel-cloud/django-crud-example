@@ -3,16 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <title>Task List</title>
-</head>
-<body>
-<h3>Task List</h3>
-{% for task in tasks %}
-    <p>{{ forloop.counter }}. {{ task.name }} - {{ task.get_status_display }}
-        (<a href="{% url 'tasks:task_update' task.id %}">Update</a> |
-        <a href="{% url 'tasks:task_delete' task.id %}">Delete</a>)
-    </p>
-{% endfor %}
 
-<p> <a href="{% url 'tasks:task_create' %}"> + Add A New Task</a></p>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            max-width: 800px;
+            margin: auto;
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f7971e;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .completed {
+            color: green;
+        }
+
+        .pending {
+            color: orange;
+        }
+
+        .actions a {
+            text-decoration: none;
+            margin: 0 5px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+
+        .update {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .update:hover {
+            background-color: #3e8e41;
+        }
+
+        .delete {
+            background-color: #ff4e50;
+            color: white;
+        }
+
+        .delete:hover {
+            background-color: #e04345;
+        }
+
+        .add-btn {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .add-btn a {
+            text-decoration: none;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+        }
+
+        .add-btn a:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h3>Task List</h3>
+
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Task Name</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for task in tasks %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ task.name }}</td>
+
+            <td class="status">
+                {% if task.get_status_display == "Completed" %}
+                    <span class="completed">{{ task.get_status_display }}</span>
+                {% else %}
+                    <span class="pending">{{ task.get_status_display }}</span>
+                {% endif %}
+            </td>
+
+            <td class="actions">
+                <a href="{% url 'tasks:task_update' task.id %}" class="update">Update</a>
+                <a href="{% url 'tasks:task_delete' task.id %}" class="delete">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="add-btn">
+        <a href="{% url 'tasks:task_create' %}">+ Add New Task</a>
+    </div>
+</div>
+
 </body>
 </html>

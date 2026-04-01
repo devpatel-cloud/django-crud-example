@@ -1,5 +1,85 @@
 <!DOCTYPE html>
-<form method="post">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ task }}"?</p>
-    <input type="submit" value="Confirm" />
-</form>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Task</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff4e50, #f9d423);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 350px;
+        }
+
+        .container p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .task-name {
+            font-weight: bold;
+            color: #ff4e50;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+            transition: 0.3s;
+        }
+
+        .btn-delete {
+            background-color: #ff4e50;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #e04345;
+        }
+
+        .btn-cancel {
+            background-color: #ccc;
+            color: black;
+            text-decoration: none;
+        }
+
+        .btn-cancel:hover {
+            background-color: #999;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete 
+            <span class="task-name">"{{ task }}"</span>?
+        </p>
+
+        <input type="submit" value="Confirm Delete" class="btn btn-delete"/>
+        <a href="{% url 'task-list' %}" class="btn btn-cancel">Cancel</a>
+    </form>
+</div>
+
+</body>
+</html>
