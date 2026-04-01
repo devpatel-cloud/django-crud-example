@@ -6,7 +6,26 @@ on:
       - main
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Tests
+        run: python manage.py test
+
   deploy:
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
@@ -28,17 +47,12 @@ jobs:
 
             pip install -r requirements.txt
 
-            # Fix migration issue
             python manage.py makemigrations
             python manage.py migrate
 
             python manage.py collectstatic --noinput
 
-            # Restart gunicorn properly
-            pkill gunicorn || true
-
-            nohup gunicorn myproject.wsgi:application --bind 127.0.0.1:8000 > gunicorn.log 2>&1 &
-
+            sudo systemctl restart gunicorn
             sudo systemctl restart nginx
 
             exit
