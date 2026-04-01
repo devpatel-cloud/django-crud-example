@@ -4,273 +4,336 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Delete Task</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0d0d0d;
-      --surface: #161616;
-      --border: #2a2a2a;
-      --danger: #ff3b3b;
-      --danger-dim: rgba(255, 59, 59, 0.12);
-      --danger-glow: rgba(255, 59, 59, 0.35);
-      --text-primary: #f0ede8;
-      --text-muted: #888;
-      --cancel-bg: #1e1e1e;
-      --cancel-hover: #2a2a2a;
+      --bg: #f7f5f0;
+      --surface: #ffffff;
+      --border: #e8e4dc;
+      --border-dark: #d4cfc4;
+      --text-primary: #1a1814;
+      --text-muted: #8c8880;
+      --text-faint: #b8b4ac;
+      --danger: #c0392b;
+      --danger-light: #fdf0ee;
+      --danger-mid: #f0c8c4;
+      --danger-hover: #a93226;
     }
 
     body {
       background: var(--bg);
       min-height: 100vh;
+      font-family: 'Geist', sans-serif;
+      color: var(--text-primary);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'DM Sans', sans-serif;
-      color: var(--text-primary);
-      overflow: hidden;
+      padding: 24px;
     }
 
-    /* Ambient background */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 30% 20%, rgba(255,59,59,0.06) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(255,100,50,0.04) 0%, transparent 55%);
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.4;
       pointer-events: none;
-      z-index: 0;
     }
 
-    .card {
+    .wrapper {
       position: relative;
       z-index: 1;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 48px 44px 40px;
       width: 100%;
       max-width: 420px;
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.03),
-        0 32px 80px rgba(0,0,0,0.6);
-      animation: rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation: appear 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(28px) scale(0.97); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Nav */
+    .nav-row {
+      margin-bottom: 20px;
+    }
+
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover { color: var(--text-primary); }
+    .nav-back svg { width: 14px; height: 14px; }
+
+    /* Card */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow:
+        0 1px 0 rgba(255,255,255,0.8) inset,
+        0 12px 40px rgba(0,0,0,0.07),
+        0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .card-header {
+      padding: 28px 28px 24px;
+      border-bottom: 1px solid var(--border);
     }
 
     /* Icon */
     .icon-wrap {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      background: var(--danger-dim);
-      border: 1px solid rgba(255,59,59,0.25);
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--danger-light);
+      border: 1px solid var(--danger-mid);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 28px;
-      animation: pulse-border 2.5s ease-in-out infinite;
-    }
-
-    @keyframes pulse-border {
-      0%, 100% { box-shadow: 0 0 0 0 var(--danger-glow); }
-      50%       { box-shadow: 0 0 0 6px transparent; }
+      margin-bottom: 18px;
     }
 
     .icon-wrap svg {
-      width: 26px;
-      height: 26px;
+      width: 20px;
+      height: 20px;
       color: var(--danger);
     }
 
-    /* Text */
-    .label {
-      font-family: 'Syne', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
+    .danger-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.13em;
       text-transform: uppercase;
       color: var(--danger);
-      margin-bottom: 10px;
-      opacity: 0.85;
+      margin-bottom: 8px;
+      opacity: 0.9;
     }
 
-    h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: 24px;
-      font-weight: 800;
+    .card-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 28px;
       line-height: 1.2;
       color: var(--text-primary);
-      margin-bottom: 14px;
+      margin-bottom: 8px;
     }
 
-    .description {
-      font-size: 14.5px;
+    .card-desc {
+      font-size: 13.5px;
       font-weight: 300;
       color: var(--text-muted);
-      line-height: 1.65;
-      margin-bottom: 10px;
+      line-height: 1.6;
     }
 
     /* Task chip */
-    .task-name {
+    .task-chip-row {
+      padding: 16px 28px;
+      border-bottom: 1px solid var(--border);
+      background: var(--danger-light);
+    }
+
+    .task-chip-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 6px;
+    }
+
+    .task-chip {
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      background: var(--danger-dim);
-      border: 1px solid rgba(255,59,59,0.2);
-      color: #ff8080;
-      font-size: 13px;
+      background: var(--surface);
+      border: 1px solid var(--danger-mid);
+      color: var(--danger);
+      font-size: 13.5px;
       font-weight: 500;
-      padding: 6px 12px;
+      padding: 7px 12px;
       border-radius: 8px;
-      margin: 12px 0 32px;
       max-width: 100%;
       word-break: break-word;
     }
 
-    .task-name svg {
+    .task-chip svg {
       flex-shrink: 0;
       width: 13px;
       height: 13px;
-      opacity: 0.7;
+      opacity: 0.6;
     }
 
-    /* Divider */
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin-bottom: 28px;
-    }
-
-    /* Buttons */
-    .actions {
+    /* Actions */
+    .card-footer {
+      padding: 20px 28px;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
       display: flex;
       gap: 10px;
     }
 
     .btn-cancel {
       flex: 1;
-      padding: 13px 18px;
-      background: var(--cancel-bg);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      border-radius: 11px;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s, border-color 0.2s;
-      text-decoration: none;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
+      font-family: 'Geist', sans-serif;
+      font-size: 13.5px;
+      font-weight: 500;
+      padding: 12px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border-dark);
+      color: var(--text-muted);
+      border-radius: 11px;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
     }
 
     .btn-cancel:hover {
-      background: var(--cancel-hover);
+      background: var(--border);
       color: var(--text-primary);
-      border-color: #444;
     }
 
     .btn-delete {
       flex: 1.4;
-      padding: 13px 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-family: 'Geist', sans-serif;
+      font-size: 13.5px;
+      font-weight: 500;
+      padding: 12px 18px;
       background: var(--danger);
       border: none;
       color: #fff;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
       border-radius: 11px;
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      transition: transform 0.15s, box-shadow 0.2s;
-      letter-spacing: 0.01em;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
     }
 
     .btn-delete::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%);
       pointer-events: none;
     }
 
+    .btn-delete svg { width: 14px; height: 14px; }
+
     .btn-delete:hover {
+      background: var(--danger-hover);
       transform: translateY(-1px);
-      box-shadow: 0 8px 28px rgba(255,59,59,0.45);
+      box-shadow: 0 6px 20px rgba(192,57,43,0.3);
     }
 
     .btn-delete:active {
       transform: translateY(0);
-      box-shadow: 0 4px 12px rgba(255,59,59,0.3);
+      box-shadow: 0 3px 8px rgba(192,57,43,0.2);
     }
 
     /* Warning note */
     .warning-note {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-top: 20px;
-      font-size: 12px;
-      color: #555;
+      gap: 7px;
+      padding: 0 28px 18px;
+      font-size: 11.5px;
+      color: var(--text-faint);
+      font-style: italic;
+      background: var(--bg);
     }
 
     .warning-note svg {
       flex-shrink: 0;
-      width: 13px;
-      height: 13px;
+      width: 12px;
+      height: 12px;
     }
   </style>
 </head>
 <body>
 
-  <div class="card">
+  <div class="wrapper">
 
-    <div class="icon-wrap">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
-      </svg>
+    <div class="nav-row">
+      <a href="javascript:history.back()" class="nav-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        Back
+      </a>
     </div>
 
-    <p class="label">Irreversible Action</p>
-    <h1>Delete Task</h1>
-    <p class="description">You're about to permanently delete this task. This cannot be undone.</p>
+    <div class="card">
 
-    <div class="task-name">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-      </svg>
-      {{ task }}
-    </div>
-
-    <div class="divider"></div>
-
-    <form method="post">
-      {% csrf_token %}
-      <div class="actions">
-        <a href="javascript:history.back()" class="btn-cancel">Cancel</a>
-        <button type="submit" class="btn-delete">Delete Task</button>
+      <div class="card-header">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14H6L5 6"/>
+            <path d="M10 11v6"/><path d="M14 11v6"/>
+            <path d="M9 6V4h6v2"/>
+          </svg>
+        </div>
+        <p class="danger-label">Irreversible Action</p>
+        <h1 class="card-title">Delete Task</h1>
+        <p class="card-desc">You're about to permanently delete this task. This cannot be undone.</p>
       </div>
-    </form>
 
-    <div class="warning-note">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-      </svg>
-      This action is permanent and cannot be recovered.
+      <div class="task-chip-row">
+        <p class="task-chip-label">Task to be deleted</p>
+        <div class="task-chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+            <rect x="9" y="3" width="6" height="4" rx="1"/>
+          </svg>
+          {{ task }}
+        </div>
+      </div>
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="card-footer">
+          <a href="javascript:history.back()" class="btn-cancel">Cancel</a>
+          <button type="submit" class="btn-delete">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6l-1 14H6L5 6"/>
+              <path d="M10 11v6"/><path d="M14 11v6"/>
+            </svg>
+            Delete Task
+          </button>
+        </div>
+      </form>
+
+      <div class="warning-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        This action is permanent and cannot be recovered.
+      </div>
+
     </div>
-
   </div>
 
 </body>
 </html>
-```
