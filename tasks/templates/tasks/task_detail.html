@@ -3,112 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Task Detail</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .card {
-            background: white;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            width: 400px;
-            text-align: center;
-        }
-
-        h2 {
-            margin-bottom: 15px;
-            color: #333;
-        }
-
-        .task-name {
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .status {
-            margin: 15px 0;
-            font-size: 16px;
-            color: #555;
-        }
-
-        .actions a {
-            display: inline-block;
-            margin: 5px;
-            padding: 8px 15px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-
-        .update {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .update:hover {
-            background-color: #3e8e41;
-        }
-
-        .delete {
-            background-color: #ff4e50;
-            color: white;
-        }
-
-        .delete:hover {
-            background-color: #e04345;
-        }
-
-        .nav-links {
-            margin-top: 20px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #667eea;
-            margin: 0 10px;
-            font-size: 14px;
-        }
-
-        .nav-links a:hover {
-            text-decoration: underline;
-        }
-    </style>
 </head>
-
 <body>
-
-<div class="card">
-    <h2>Task Detail</h2>
-
-    <p>
-        Task Name: 
-        <span class="task-name">{{ task.name }}</span>
-    </p>
-
-    <div class="status">
-        Task Status: {{ task.get_status_display }}
-    </div>
-
-    <div class="actions">
-        <a href="{% url 'tasks:task_update' task.id %}" class="update">Update</a>
-        <a href="{% url 'tasks:task_delete' task.id %}" class="delete">Delete</a>
-    </div>
-
-    <div class="nav-links">
-        <a href="{% url 'tasks:task_list' %}">View All Tasks</a> |
-        <a href="{% url 'tasks:task_create' %}">New Task</a>
-    </div>
-</div>
-
+<p> Task Name: {{ task.name }} | <a href="{% url 'tasks:task_update' task.id %}">Update</a> |
+    <a href="{% url 'tasks:task_delete' task.id %}">Delete</a>
+</p>
+<p> Task Status: {{ task.get_status_display }} </p>
+<p> <a href="{% url 'tasks:task_list' %}">View All Tasks</a> |
+    <a href="{% url 'tasks:task_create'%}">New Task</a>
+</p>
 </body>
 </html>
