@@ -20,8 +20,8 @@ ALLOWED_HOSTS = [*]
 # ✅ CSRF FIX (VERY IMPORTANT)
 
 CSRF_TRUSTED_ORIGINS = [
-"http://",
-"https://",
+"http://http://20.219.129.173/",
+"https://http://20.219.129.173/",
 ]
 
 # Application definition
