@@ -15,13 +15,13 @@ DEBUG = False
 
 # ✅ Allowed hosts (your server IP)
 
-ALLOWED_HOSTS = ['20.204.242.183']
+ALLOWED_HOSTS = [*]
 
 # ✅ CSRF FIX (VERY IMPORTANT)
 
 CSRF_TRUSTED_ORIGINS = [
-"http://20.204.242.183",
-"https://20.204.242.183",
+"http://",
+"https://",
 ]
 
 # Application definition
