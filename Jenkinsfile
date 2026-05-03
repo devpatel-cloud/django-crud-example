@@ -6,7 +6,9 @@ pipeline {
         stage('Setup Environment') {
             steps {
                 sh '''
-                python3 -m venv venv
+                if [ ! -d "venv" ]; then
+                    python3 -m venv venv
+                fi
                 . venv/bin/activate
                 pip install --upgrade pip
                 pip install -r requirements.txt
@@ -19,7 +21,7 @@ pipeline {
             steps {
                 sh '''
                 . venv/bin/activate
-                python manage.py migrate
+                python3 manage.py migrate
                 '''
             }
         }
@@ -28,7 +30,7 @@ pipeline {
             steps {
                 sh '''
                 . venv/bin/activate
-                python manage.py collectstatic --noinput
+                python3 manage.py collectstatic --noinput
                 '''
             }
         }
