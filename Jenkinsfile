@@ -3,12 +3,6 @@ pipeline {
 
     stages {
 
-        stage('Clone') {
-            steps {
-                git 'https://github.com/devpatel-cloud/django-crud-example.git'
-            }
-        }
-
         stage('Setup Environment') {
             steps {
                 sh '''
