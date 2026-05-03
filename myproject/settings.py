@@ -15,7 +15,7 @@ DEBUG = False
 
 # ✅ Allowed hosts (your server IP)
 
-ALLOWED_HOSTS = [*]
+ALLOWED_HOSTS = ["*"]
 
 # ✅ CSRF FIX (VERY IMPORTANT)
 
